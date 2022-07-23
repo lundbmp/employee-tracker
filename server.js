@@ -1,6 +1,7 @@
 const { application } = require('express');
 const express = require('express');
 const db = require('./config/connection');
+const apiRoutes = require('./routes/api/index');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -8,6 +9,8 @@ const app = express();
 // express middleware
 app.use(express.urlencoded({ exprended: false }));
 app.use(express.json());
+
+app.use('/api', apiRoutes);
 
 
 
