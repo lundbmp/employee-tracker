@@ -4,11 +4,12 @@ const db = require("../../config/connection");
 
 // view all roles
 router.get("/role", (req, res) => {
-  const sql = `SELECT * FROM role`;
+  const sql = `SELECT r.*, d.name FROM role r
+                LEFT JOIN department d ON r.department_id=d.id`;
 
   db.query(sql, (error, rows) => {
     if (error) {
-      res.status(500).json({ error: err.message });
+      res.status(500).json({ error: error.message });
       return;
     }
     res.json({

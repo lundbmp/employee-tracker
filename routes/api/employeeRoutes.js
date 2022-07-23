@@ -4,11 +4,14 @@ const db = require("../../config/connection");
 
 // view all employees
 router.get("/employee", (req, res) => {
-  const sql = `SELECT * FROM employee`;
+  const sql = `SELECT e.*, r.title, r.salary, d.name, (SELECT CONCAT(e2.first_name,' ', e2.last_name) FROM employee e2 WHERE id = e.manager_id) AS manager 
+                FROM employee e
+                LEFT JOIN role r ON e.role_id=r.id
+                RIGHT JOIN department d ON r.department_id=d.id`;
 
   db.query(sql, (error, rows) => {
     if (error) {
-      res.status(500).json({ error: err.message });
+      res.status(500).json({ error: error.message });
       return;
     }
     res.json({
