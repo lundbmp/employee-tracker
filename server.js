@@ -1,4 +1,3 @@
-const { application } = require('express');
 const express = require('express');
 const db = require('./config/connection');
 const apiRoutes = require('./routes/api/index');
