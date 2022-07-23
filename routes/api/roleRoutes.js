@@ -22,7 +22,7 @@ router.get("/role", (req, res) => {
 // add role
 router.post("/role", ({ body }, res) => {
   const sql = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`;
-  const params = [body.title, body.salary, body.department_id]
+  const params = [body.title, body.salary, body.department_id];
 
   db.query(sql, params, (error, rows) => {
     if (error) {
