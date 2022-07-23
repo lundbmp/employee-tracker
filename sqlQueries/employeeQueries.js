@@ -1,9 +1,7 @@
-const express = require("express");
-const router = express.Router();
-const db = require("../../config/connection");
+const db = require("../config/connection");
 
 // view all employees
-router.get("/employee", (req, res) => {
+function getEmployees() {
   const sql = `SELECT e.*, r.title, r.salary, d.name, (SELECT CONCAT(e2.first_name,' ', e2.last_name) FROM employee e2 WHERE id = e.manager_id) AS manager 
                 FROM employee e
                 LEFT JOIN role r ON e.role_id=r.id
@@ -11,18 +9,15 @@ router.get("/employee", (req, res) => {
 
   db.query(sql, (error, rows) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      console.log(error);
       return;
     }
-    res.json({
-      message: "success",
-      data: rows,
-    });
+    console.log("Success...\n" + rows);
   });
-});
+};
 
 // add employee
-router.post("/employee", ({ body }, res) => {
+function addEmployee(body) {
   const sql = `INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
   const params = [
     body.first_name,
@@ -33,34 +28,30 @@ router.post("/employee", ({ body }, res) => {
 
   db.query(sql, params, (error, rows) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      console.log(error);
       return;
     }
-    res.json({
-      message: "success",
-      data: rows,
-    });
+    console.log("Success...\n" + rows);
   });
-});
+};
 
 // update employee role
-router.put("/employee/:id", (req, res) => {
-  const employeeId = req.params.id;
-  const updatedRoleId = req.body.role_id;
-  const params = [updatedRoleId, employeeId];
+function updateEmployee(id, role_id){
+  const params = [id, role_id];
   const sql = `UPDATE employee SET role_id = ?
                 WHERE id = ?`;
 
   db.query(sql, params, (error, rows) => {
     if (error) {
-      res.status(500).json({ error: error.message });
+      console.log(error);;
       return;
     }
-    res.json({
-      message: "success",
-      data: rows,
-    });
+    console.log("Success...\n" + rows);
   });
-});
+};
 
-module.exports = router;
+module.exports = {
+  getEmployees: getEmployees(),
+  addEmployee: addEmployee(),
+  updateEmployees: updateEmployee() 
+};
