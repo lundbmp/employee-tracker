@@ -10,25 +10,25 @@ function getRoles() {
       console.log(error);
       return;
     }
-    console.log("Success...\n" + rows);
+    console.table(rows);
   });
 };
 
 // add role
-function addRole(body){
+function addRole(roleObj){
   const sql = `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`;
-  const params = [body.title, body.salary, body.department_id];
+  const params = [roleObj.title, roleObj.salary, roleObj.department_id];
 
   db.query(sql, params, (error, rows) => {
     if (error) {
       console.log(error);
       return;
     }
-    console.log("Success...\n" + rows);
+    console.log("you have added a role.");
   });
 };
 
 module.exports = {
-  getRoles: getRoles(),
-  addRole: addRole()
+  getRoles: getRoles,
+  addRole: addRole
 };

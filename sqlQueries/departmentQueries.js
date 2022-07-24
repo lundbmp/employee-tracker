@@ -1,7 +1,7 @@
 const db = require("../config/connection");
 
 // get all departments
-function getDepartments(){
+function getDepartment(){
   const sql = `SELECT * FROM department`;
 
   db.query(sql, (error, rows) => {
@@ -9,25 +9,25 @@ function getDepartments(){
       console.log(error);
       return;
     }
-    console.log("Success...\n" + rows);
+    console.table(rows);
   });
 };
 
 // add department
-function addDepartment(departmentName) {
+function addDepartment(departmentObj) {
   const sql = `INSERT INTO department(name) VALUES (?)`;
-  const params = departmentName;
+  const params = departmentObj.name;
 
   db.query(sql, params, (error, rows) => {
     if (error) {
       console.log(error);
       return;
     }
-    console.log("Success...\n" + rows);
+    console.log("you have added a department");
   });
 };
 
 module.exports = {
-  getDepartments: getDepartments(),
-  addDepartment: addDepartment()
+  getDepartment: getDepartment,
+  addDepartment: addDepartment
 };
