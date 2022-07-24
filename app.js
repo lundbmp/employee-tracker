@@ -3,14 +3,14 @@ const role = require("./sqlQueries/roleQueries");
 const employee = require("./sqlQueries/employeeQueries");
 const department = require("./sqlQueries/departmentQueries");
 const inquirer = require("inquirer");
-const Choices = require("inquirer/lib/objects/choices");
 
-// connect to database THEN start server
+// connect to database
 db.connect((err) => {
   if (err) throw err;
   console.log("Database connected...");
 });
 
+// making the promp start with the menu choices
 function promptStart() {
   inquirer
     .prompt([
@@ -31,6 +31,7 @@ function promptStart() {
       },
     ])
     .then((result) => {
+        // switch statement to handle the requests of the user. Delays need to properly display table
       switch (result.menu) {
         case "View All Employees":
           employee.getEmployee();
@@ -69,8 +70,10 @@ function promptStart() {
     });
 }
 
+// runs program
 promptStart();
 
+// displays roles and prompts user to add employee info
 function addEmployee() {
   role.getRoles();
   setTimeout(() => {
@@ -138,6 +141,7 @@ function addEmployee() {
   }, 1000);
 }
 
+// displays employees and prompts user to update an employee info
 function updateEmployee() {
   employee.allEmployees();
   setTimeout(() => {
@@ -180,6 +184,7 @@ function updateEmployee() {
   }, 1000);
 }
 
+// adds a role
 function addRole() {
     setTimeout(() => {
         inquirer
@@ -233,6 +238,7 @@ function addRole() {
       }, 1000);
 }
 
+// adds a department
 function addDepartment() {
     setTimeout(() => {
         inquirer
